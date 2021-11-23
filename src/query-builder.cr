@@ -69,7 +69,7 @@ module Query
       where field, operator, val, "NOT ", "OR"
     end
 
-    def in(field, values : Array, type = "", and_or = "AND")
+    def in_method(field, values : Array, type = "", and_or = "AND")
       keys = [] of String
       values.each { |val| keys << "#{escape(val)}" }
       @where += @where.empty? ? "#{field} #{type}IN (#{keys.join(", ")})" : " #{and_or} #{field} #{type}IN (#{keys.join(", ")})"
@@ -77,17 +77,17 @@ module Query
     end
 
     def or_in(field : String, values : Array)
-      in field, values, "", "OR"
+      in_method(field, values, "", "OR")
       self
     end
 
     def not_in(field : String, values : Array)
-      in field, values, "NOT ", "AND"
+      in_method(field, values, "NOT ", "AND")
       self
     end
 
     def or_not_in(field : String, values : Array)
-      in field, values, "NOT ", "OR"
+      in_method(field, values, "NOT ", "OR")
       self
     end
 
